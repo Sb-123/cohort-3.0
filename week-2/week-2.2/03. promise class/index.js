@@ -17,7 +17,7 @@ function settimeoutPromisified(ms) {
 function callback() {
   console.log("3 seconds have passed");
 }
-setTimeout(callback, 3000);
+setTimeout(callback, 3000); // callback approach.
 settimeoutPromisified(3000).then(callback); // syntactically cleaner.
 
 let p = settimeoutPromisified(5000); // it return you object of the promise class.
