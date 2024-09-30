@@ -9,7 +9,7 @@
 
 <body>
   <h1>Todo list</h1>
-  <diyouv id="todos">
+  <div id="todos">
     <div id="todo-1">
       <h4>1. Take class</h4>
       <button onclick="deleteTodo(1)">Delete</button>
@@ -30,6 +30,7 @@
     function addTodo() {
       const inputEl = document.getElementById("inp");
       const todoText = inputEl.value.trim();
+      // const todoText= document.getElementById("inp").value.trim();
 
       if (todoText === '') {
         alert('Please enter a todo item.');

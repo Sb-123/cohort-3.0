@@ -1,0 +1,75 @@
+<!-- <body>
+  <button onclick="createComplexDomElement()">Add</button>
+</body>
+<script>
+  function createComplexDomElement() {
+    const div = document.createElement("div");
+    div.innerHTML = "<h1> hi there </h1>";
+    document.querySelector("body").appendChild(div);
+  }
+</script> -->
+
+<!-- ToDo app. -->
+<!-- M-II*********************************************************************************************************** -->
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="text" />
+    <button onclick="addTodo()">Add todo!</button>
+
+    <script>
+      let cnt = 1;
+      function deleteTodo(index) {
+        const element = document.getElementById(index);
+        element.parentNode.removeChild("element");
+      }
+
+      function addTodo() {
+        const value = document.querySelector("input").value;
+
+        const newDivEl = document.createElement("div");
+        const h1 = document.createElement("h1");
+        h1.innerHTML = value;
+        newDivEl.appendChild(h1);
+
+        document.querySelector("body").appendChild(newDivEl);
+      }
+      cnt++;
+    </script>
+  </body>
+</html> -->
+
+<!-- M-III :-*********************************************************************************************************** -->
+<body>
+  <div id="root"></div>
+  <script>
+    function render(todos) {
+      const todoList = document.getElementById("root");
+      todoList.innerHTML = ""; // Clear the list
+
+      todos.forEach((todo) => {
+        const div = document.createElement("div");
+        const h1 = document.createElement("h4");
+        h1.textContent = todo.title;
+        div.appendChild(h1);
+        div.setAttribute("data-id", todo.id);
+        todoList.appendChild(div);
+      });
+    }
+    render([
+      {
+        id: 1,
+        title: "Go to gym",
+      },
+      {
+        id: 2,
+        title: "Clean the car",
+      },
+    ]);
+  </script>
+</body>
