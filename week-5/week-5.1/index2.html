@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    LinkedIn
+    <div id="posts"></div>
+    <button onclick="getRecentPost()">Fetch latest posts</button>
+
+    <script>
+      async function getRecentPost() {
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts"
+        );
+        const arr = response.data;
+        for (let i = 0; i < arr.length; i++) {
+          document.getElementById("posts").innerHTML +=
+            "<div>" + arr[i].body + "</div>";
+        }
+      }
+    </script>
+  </body>
+</html>
