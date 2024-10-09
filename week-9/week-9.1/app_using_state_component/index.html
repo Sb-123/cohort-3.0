@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="buttonParent"></div>
+    <script>
+      let state = {
+        cnt: 0,
+      };
+
+      function onButtonPress() {
+        state.cnt++;
+        buttonComponentReRender();
+      }
+
+      function buttonComponentReRender() {
+        document.getElementById("buttonParent").innerHTML = "";
+        const button = document.createElement("button");
+        button.innerHTML = `Counter ${state.cnt}`;
+        button.setAttribute("onclick", `onButtonPress()`);
+        document.getElementById("buttonParent").appendChild(button);
+      }
+      buttonComponentReRender();
+    </script>
+  </body>
+</html>
