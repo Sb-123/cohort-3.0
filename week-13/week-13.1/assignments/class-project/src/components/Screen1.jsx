@@ -1,12 +1,23 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-const screen1 = () => {
+import { useNavigate } from "react-router-dom";
+
+const Screen1 = () => {
+  const [date, setDate] = useState("");
+
+  const navigate = useNavigate();
+  const handleNavigate = () => {
+    navigate("/Screen2");
+  };
+
+  const handleDateChange = (e) => {
+    setDate(e.target.value);
+  };
+
   return (
     <>
       <div className="h-screen bg-[#002a5a]">
         <div className="flex flex-col items-center justify-center">
           <div className="flex items-center gap-2 mt-24 mb-36">
-            <FontAwesomeIcon icon="fa-solid fa-house-lock" />
             <h1 className="text-2xl font-bold">
               <span className="text-[#3ddacb]">Webinar</span>.gg
             </h1>
@@ -22,33 +33,19 @@ const screen1 = () => {
             onChange={handleDateChange}
             placeholder="Your birth year"
           />
-          <MyButton />
+          <button
+            className={` ${
+              date.length >= 10 ? "bg-[#3FE0CF]" : " bg-[#65809D]"
+            }  text-white p-2 rounded-md w-80 mt-4`}
+            disabled={date.length < 10}
+            onClick={handleNavigate}
+          >
+            Continue
+          </button>
         </div>
       </div>
     </>
   );
 };
 
-const MyButton = () => {
-  const [date, setDate] = useState("");
-  const [buttonColor, setButtonColor] = useState("");
-
-  const handleDateChange = (e) => {
-    setDate(e.target.value);
-    if (e.target.value.length === 8) {
-      setButtonColor("#3bd4c8");
-    } else {
-      setButtonColor("#92a2b6");
-    }
-  };
-  return (
-    <button
-      onChange={handleDateChange}
-      className={`bg-[${buttonColor}]  text-white p-2 rounded-md w-80 mt-4`}
-    >
-      Continue
-    </button>
-  );
-};
-
-export default screen1;
+export default Screen1;

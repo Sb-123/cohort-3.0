@@ -1,15 +1,21 @@
-import "./App.css";
-import Screen1 from "./components/screen1";
+import React from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Screen1 from "./components/Screen1";
 import Screen2 from "./components/Screen2";
+import Screen3 from "./components/Screen3";
 
-function App() {
+const App = () => {
   return (
-    <>
-      sanjeev Suman.
-      <Screen1 />
-      <Screen2 />
-    </>
+    <div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Screen1 />} />
+          <Route path="/Screen2" element={<Screen2 />} />
+          <Route path="/Screen3" element={<Screen3 />} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
-}
+};
 
 export default App;
