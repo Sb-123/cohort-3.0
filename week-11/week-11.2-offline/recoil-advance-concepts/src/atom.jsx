@@ -23,7 +23,7 @@ export const notificationsAtom = atom({
 export const totalNotificationSelector = selector({
   key: "totalNotificationCount",
   get: ({ get }) => {
-    const networkAtomCount = get(networkAtom);
+    const networkAtomCount = get(networkAtom); // jese hi networkAtom change hoga wese hi get function update kr denga.
     const jobsAtomCount = get(jobsAtom);
     const notificationsAtomCount = get(notificationsAtom);
     const messagesAtomCount = get(messagesAtom);
