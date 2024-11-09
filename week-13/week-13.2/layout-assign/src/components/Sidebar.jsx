@@ -5,7 +5,7 @@ const Sidebar = () => {
     <>
       <div className="flex">
         {/* sidebar */}
-        <div className="bg-pink-300 sm:h-screen h-5 sm:w-64 w-10 transition-all duration-500 ease-in-out ">
+        <div className="transition-all bg-pink-300  h-screen sm:bg-green-300 md:bg-yellow-200  sm:w-64 w-10  duration-1000 ">
           Sidebar
         </div>
         {/* main contents */}
