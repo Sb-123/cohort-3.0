@@ -1,15 +1,41 @@
 import './App.css'
-import { Button } from './components/UI/Button';
+import { Button } from './components/UI/Button'
+import { PlusIcon } from './icons/PlusIcon'
+import { ShareIcon } from './icons/ShareIcon'
 
-const App = () => {
+function App() {
   return (
-    <div>
-      <Button variant="primary" size="small" text="Share" startIcon={<i className="fa fa-facebook"></i>} endIcon={<i className="fa fa-twitter"></i>} onClick={() => console.log("clicked")} />
-      <Button variant="secondary" size="medium" text="Add Content" startIcon={<i className="fa fa-facebook"></i>} endIcon={<i className="fa fa-twitter"></i>} onClick={() => console.log("clicked")} />
-      <Button variant="primary" size="large" text="Share" startIcon={<i className="fa fa-facebook"></i>} endIcon={<i className="fa fa-twitter"></i>} onClick={() => console.log("clicked")} />
-      
-    </div>
+    <>
+      <Button
+        variant={"primary"}
+        startIcon={<PlusIcon size={"sm"} />}
+        endIcon={<ShareIcon size={"sm"} />}
+        size={"sm"}
+        title={"Add"}
+      />
+      <Button
+        variant={"secondary"}
+        startIcon={<PlusIcon size={"sm"} />}
+        endIcon={<ShareIcon size={"sm"} />}
+        size={"sm"}
+        title={"Add"}
+      />
+      <Button
+        variant={"primary"}
+        startIcon={<PlusIcon size={"md"} />}
+        endIcon={<ShareIcon size={"md"} />}
+        size={"md"}
+        title={"Add"}
+      />
+      <Button
+        variant={"secondary"}
+        startIcon={<PlusIcon size={"md"} />}
+        endIcon={<ShareIcon size={"md"} />}
+        size={"md"}
+        title={"Add"}
+      />
+    </>
   )
 }
-
-export default App
+ 
+export default App;
