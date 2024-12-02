@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 // const { JWT_SECRET } = require("../auth");
 const jwt = require("jsonwebtoken");
+const { JWT_SECRET_user } = require("../.env");
 const { z } = require("zod");
 const app = express();
 app.use(express.json());
@@ -55,11 +56,42 @@ userRouter.post("/signup", async function (req, res) {
     });
   }
 });
-userRouter.post("/signin", function (req, res) {
+userRouter.post("/signin", async function (req, res) {
   // you would expect the user to sign in
-  res.json({
-    message: "User signed in",
+  const email = req.body.email;
+  const password = req.body.password;
+
+  const response = await userModel.findOne({
+    email: email,
   });
+  if (!response) {
+    res.status(403).json({
+      message: "Incorrect credentials",
+    });
+    return;
+  }
+
+  const passwordMatch = await bcrypt.compare(
+    password,
+    response.password.toString()
+  );
+
+  if (passwordMatch) {
+    const token = jwt.sign(
+      {
+        id: response._id.toString(),
+      },
+      JWT_SECRET_user
+    );
+
+    res.json({
+      token,
+    });
+  } else {
+    res.status(403).json({
+      message: "Incorrect credentials",
+    });
+  }
 });
 
 userRouter.get("/purchase", function (req, res) {

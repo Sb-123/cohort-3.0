@@ -1,11 +1,12 @@
 const { Router } = require("express");
 const adminRouter = Router();
-const { AdminModel } = require("../db");
+const { adminModel, courseModel } = require("../db");
 const bcrypt = require("bcrypt");
 const express = require("express");
-// const { JWT_SECRET } = require("../auth");
 const jwt = require("jsonwebtoken");
 const { z } = require("zod");
+const { JWT_SECRET_admin } = require("../.env");
+const { adminMiddleware } = require("../middleware/admin");
 const app = express();
 app.use(express.json());
 
@@ -13,7 +14,7 @@ adminRouter.post("/signup", async function (req, res) {
   // you would expect the admin to sign up
   const requiredBody = z.object({
     email: z.string().min(3).max(50).email(),
-    password: z.string().min(6).max(12),
+    password: z.string().min(6).max(25),
     firstName: z.string(),
     lastName: z.string(),
   });
@@ -22,6 +23,7 @@ adminRouter.post("/signup", async function (req, res) {
   if (!parseDataWithSuccess.success) {
     res.json({
       message: "Invalid format",
+      errors: parseDataWithSuccess.error.errors,
     });
     return;
   }
@@ -33,10 +35,10 @@ adminRouter.post("/signup", async function (req, res) {
 
   let error = false;
   try {
-    const hashedPassword = await bcrypt.hash(password, 5);
+    const hashedPassword = await bcrypt.hash(password, 10);
     // console.log(hashedPassword);
 
-    await AdminModel.create({
+    await adminModel.create({
       email: email,
       password: hashedPassword,
       firstName: firstName,
@@ -60,7 +62,7 @@ adminRouter.post("/signin", async function (req, res) {
   const email = req.body.email;
   const password = req.body.password;
 
-  const response = await AdminModel.findOne({
+  const response = await adminModel.findOne({
     email: email,
   });
   if (!response) {
@@ -70,14 +72,17 @@ adminRouter.post("/signin", async function (req, res) {
     return;
   }
 
-  const passwordMatch = await bcrypt.compare(password, response.password);
+  const passwordMatch = await bcrypt.compare(
+    password,
+    response.password.toString()
+  );
 
   if (passwordMatch) {
     const token = jwt.sign(
       {
         id: response._id.toString(),
       },
-      JWT_SECRET
+      JWT_SECRET_admin
     );
 
     res.json({
@@ -90,24 +95,38 @@ adminRouter.post("/signin", async function (req, res) {
   }
 });
 
-adminRouter.post("/add-course", function (req, res) {
+adminRouter.post("/add-course", adminMiddleware, async function (req, res) {
   // you would expect the admin to add a course
+  const adminId = req.adminId;
+  const title = req.body.title;
+  const description = req.body.description;
+  const price = req.body.price;
+  const imageUrl = req.body.imageUrl;
+
+  await courseModel.create({
+    title,
+    description,
+    price,
+    imageUrl,
+    creatorId: adminId,
+  });
   res.json({
-    message: "Admin added a course",
+    message: "Course added",
+    courseId: course._id,
   });
 });
 
-adminRouter.post("/remove-course", function (req, res) {
+adminRouter.post("/remove-course", adminMiddleware, async function (req, res) {
   // you would expect the admin to remove a course
   res.json({
-    message: "Admin removed a course",
+    message: "Course removed",
   });
 });
 
-adminRouter.post("/update-course", function (req, res) {
+adminRouter.post("/update-course", adminMiddleware, async function (req, res) {
   // you would expect the admin to update a course
   res.json({
-    message: "Admin updated a course",
+    message: "Course updated",
   });
 });
 
