@@ -5,10 +5,11 @@ const bcrypt = require("bcrypt");
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const { z } = require("zod");
-const { JWT_SECRET_admin } = require("../.env");
 const { adminMiddleware } = require("../middleware/admin");
 const app = express();
 app.use(express.json());
+const dotenv = require("dotenv");
+dotenv.config();
 
 adminRouter.post("/signup", async function (req, res) {
   // you would expect the admin to sign up
@@ -82,7 +83,7 @@ adminRouter.post("/signin", async function (req, res) {
       {
         id: response._id.toString(),
       },
-      JWT_SECRET_admin
+      process.env.JWT_SECRET_admin
     );
 
     res.json({

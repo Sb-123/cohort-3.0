@@ -1,12 +1,14 @@
-require("dotenv").config();
-console.log(process.env.MONGO_URL);
-const express = require("express");
 const mongoose = require("mongoose");
+const express = require("express");
 
 const { userRouter } = require("./routes/user");
 const { courseRouter } = require("./routes/course");
 const { adminRouter } = require("./routes/admin");
 // const { userModel, courseModel, adminModel } = require("./db");
+const dotenv = require("dotenv");
+dotenv.config();
+
+// console.log(process.env.MONGO_URL);
 
 const app = express();
 app.use(express.json());

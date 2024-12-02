@@ -1,11 +1,11 @@
 const { Router } = require("express");
+const express = require("express");
 const userRouter = Router();
 const { userModel } = require("../db");
 const bcrypt = require("bcrypt");
-const express = require("express");
-// const { JWT_SECRET } = require("../auth");
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET_user } = require("../.env");
+const dotenv = require("dotenv");
+dotenv.config();
 const { z } = require("zod");
 const app = express();
 app.use(express.json());
@@ -14,7 +14,7 @@ userRouter.post("/signup", async function (req, res) {
   // you would expect the user to sign up
   const requiredBody = z.object({
     email: z.string().min(3).max(50).email(),
-    password: z.string().min(6).max(12),
+    password: z.string().min(6).max(25),
     firstName: z.string(),
     lastName: z.string(),
   });
@@ -81,7 +81,7 @@ userRouter.post("/signin", async function (req, res) {
       {
         id: response._id.toString(),
       },
-      JWT_SECRET_user
+      process.env.JWT_SECRET_user
     );
 
     res.json({
