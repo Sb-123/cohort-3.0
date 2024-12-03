@@ -1,9 +1,12 @@
 const jwt = require("jsonwebtoken");
-const { JWT_SECRET_admin } = require("../.env");
+
+const dotenv = require("dotenv");
+dotenv.config();
+// console.log(process.env.JWT_SECRET_admin);
 
 function adminMiddleware(req, res, next) {
   const token = req.headers.token;
-  const decoded = jwt.verify(token, JWT_SECRET_admin);
+  const decoded = jwt.verify(token, process.env.JWT_SECRET_admin);
 
   if (decoded) {
     req.userId = decoded.id;

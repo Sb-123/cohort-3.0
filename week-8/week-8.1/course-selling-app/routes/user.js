@@ -1,12 +1,13 @@
 const { Router } = require("express");
 const express = require("express");
 const userRouter = Router();
-const { userModel } = require("../db");
+const { userModel, courseModel, purchaseModel } = require("../db");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 dotenv.config();
 const { z } = require("zod");
+const { userMiddleware } = require("../middleware/user");
 const app = express();
 app.use(express.json());
 
@@ -94,10 +95,26 @@ userRouter.post("/signin", async function (req, res) {
   }
 });
 
-userRouter.get("/purchase", function (req, res) {
+userRouter.get("/purchases", userMiddleware, async function (req, res) {
   // you would expect the user to purchase a course
+  const userId = req.userId;
+
+  const purchases = await purchaseModel.find({
+    userId,
+  });
+
+  // let purchasedCourseIds = [];
+  // for (let i = 0; i < purchases.length; i++) {
+  //   purchasedCourseIds.push(purchases[i].courseId);
+  // }
+
+  const coursesData = await courseModel.find({
+    _id: { $in: purchasedCourseIds },
+  });
+
   res.json({
-    message: "User purchased a course",
+    purchases,
+    coursesData,
   });
 });
 

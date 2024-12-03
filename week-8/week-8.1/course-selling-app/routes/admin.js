@@ -99,12 +99,10 @@ adminRouter.post("/signin", async function (req, res) {
 adminRouter.post("/add-course", adminMiddleware, async function (req, res) {
   // you would expect the admin to add a course
   const adminId = req.adminId;
-  const title = req.body.title;
-  const description = req.body.description;
-  const price = req.body.price;
-  const imageUrl = req.body.imageUrl;
 
-  await courseModel.create({
+  const { title, description, price, imageUrl } = req.body;
+
+  const course = await courseModel.create({
     title,
     description,
     price,
@@ -117,17 +115,48 @@ adminRouter.post("/add-course", adminMiddleware, async function (req, res) {
   });
 });
 
+adminRouter.put("/update-course", adminMiddleware, async function (req, res) {
+  // you would expect the admin to update a course
+  const adminId = req.userId;
+
+  const { title, description, price, imageUrl, courseId } = req.body;
+
+  const course = await courseModel.updateOne(
+    {
+      _id: courseId,
+      creatorId: adminId,
+    },
+    {
+      title,
+      description,
+      price,
+      imageUrl,
+    }
+  );
+
+  res.json({
+    message: "Course updated",
+    courseId: course._id,
+  });
+});
+
+adminRouter.get("/courses/bulk", adminMiddleware, async function (req, res) {
+  // you would expect the admin to get all courses
+  // const courses = await courseModel.find({ creatorId: req.adminId });
+  // res.json(courses);
+
+  const adminId = req.adminId;
+
+  const courses = await courseModel.find({
+    creatorId: adminId,
+  });
+  res.json(courses);
+});
+
 adminRouter.post("/remove-course", adminMiddleware, async function (req, res) {
   // you would expect the admin to remove a course
   res.json({
     message: "Course removed",
-  });
-});
-
-adminRouter.post("/update-course", adminMiddleware, async function (req, res) {
-  // you would expect the admin to update a course
-  res.json({
-    message: "Course updated",
   });
 });
 

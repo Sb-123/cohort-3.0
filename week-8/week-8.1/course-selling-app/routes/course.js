@@ -9,11 +9,10 @@ courseRouter.post("/purchase", function (req, res) {
   });
 });
 
-courseRouter.post("/preview", function (req, res) {
+courseRouter.post("/preview", async function (req, res) {
   // you would expect the user to preview the course
-  res.json({
-    message: "Course previewed",
-  });
+  const courses = await courseModel.find({ creatorId: req.userId });
+  res.json(courses);
 });
 
 module.exports = {
