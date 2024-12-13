@@ -1,25 +1,3 @@
-
-
-
-
-// const pgClient = new Client({
-//     user: "first_db_owner",
-//     password: "PnAap5GoX8xT",
-//     host: "localhost",
-//     port: 7687,
-//     database: "first_db",
-//     ssl: true,
-// });
-
-// async function main() {
-//     await pgClient.connect();
-//     const res= await pgClient.query("SELECT * FROM users");
-//     console.log(res.rows);
-//     await pgClient.end();
-// }
-
-
-import e from 'express';
 import express from 'express';
 import { Client } from 'pg';
 
@@ -30,13 +8,32 @@ const pgClient = new Client("postgresql://first_db_owner:PnAap5GoX8xT@ep-square-
 
 pgClient.connect();
 
-app.post("/users", async (req, res) => {
-    const { name, email, password } = req.body;
-
+app.post("/signup", async (req, res) => {
+    const { username, email, password } = req.body;
+    const {city, state, country, pinCode} = req.body;
     try {
-        const insertQuery = `INSERT INTO users (name, email, password) VALUES ($1, $2, $3)`; //** 
-        const response = await pgClient.query(insertQuery, [name, email, password]);
+        const insertQuery = `INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id`; //** 
+        const response = await pgClient.query(insertQuery, [username, email, password]);
+        const userId = response.rows[0].id;
+        const addressInsertQuery = `INSERT INTO address (user_id, city, state, country, pin_code) VALUES ($1, $2, $3, $4, $5)`;
+        const addressResponse = await pgClient.query(addressInsertQuery, [userId, city, state, country, pinCode]);
+        res.json({
+            message: "You have signed up successfully",
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            message: "Error while signing up",
+            error: error,
+        });
+    } 
+});
+ 
 
+app.get("/users", async (req, res) => {
+    try {
+        const selectQuery = `SELECT * FROM users`;
+        const response = await pgClient.query(selectQuery);
         res.json({
             message: "You have signed up successfully",
         })
@@ -50,18 +47,18 @@ app.post("/users", async (req, res) => {
 });
 
 
-app.get("/users", async (req, res) => {
+app.post("transactions", async (req, res) => {
+    const { amount, user_id } = req.body;
     try {
-        const selectQuery = `SELECT * FROM users`;
-        const response = await pgClient.query(selectQuery);
-
+        const insertQuery = `INSERT INTO transactions (amount, user_id) VALUES ($1, $2)`;
+        const response = await pgClient.query(insertQuery, [amount, user_id]);
         res.json({
-            message: "You have signed up successfully",
+            message: "Transaction successful",
         })
     } catch (error) {
         console.log(error);
         res.json({
-            message: "Error while signing up",
+            message: "Error while transaction",
             error: error,
         });
     } 
