@@ -10,8 +10,7 @@ const page = () => {
             <button
                 onClick={() => {
                     axios.post("http://localhost:3000/api/v1/signin", {
-                        username: "harkirat@gmail.com",
-                        password: "123456"
+                    
                     })
                 }}
             >Sign in</button>

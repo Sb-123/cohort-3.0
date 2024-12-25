@@ -6,8 +6,8 @@ export default function Home() {
     <div>
       Todo application
       <br />
-
       <Link href="/signin">Sign in to Todo app</Link>
+      <br />
       <Link href="/signup">Sign up to Todo app</Link>
     </div>
     

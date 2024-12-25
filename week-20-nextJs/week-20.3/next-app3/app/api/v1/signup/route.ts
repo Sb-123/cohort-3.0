@@ -1,10 +1,10 @@
 
 import { NextResponse, NextRequest } from "next/server";
-import { PrismaClient } from "@prisma/client";
+// import { PrismaClient } from "@prisma/client";
 import prismaClient from "../../../lib/db";
 
-const prisma = new PrismaClient();
 
+// const prismaClient = new PrismaClient(); // apn log singleton prismaClient use krenge, iss se baar-baar prismClient create nhi hoga.
 
 
 
@@ -12,7 +12,7 @@ const prisma = new PrismaClient();
 export async function POST(req: NextRequest) {
     const data = await req.json();
     
-    await prisma.user.create({
+    await prismaClient.user.create({
         data: {
             username: data.username,
             password: data.password,
@@ -22,12 +22,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({
         message: "signup success"
     });
- }
+}
 
 export async function GET(req: NextRequest) {
-    const data = await prisma.user.findFirst();
+    const data = await prismaClient.user.findFirst();
     
     return NextResponse.json({
-       data
+    data
     });
- }
+}
