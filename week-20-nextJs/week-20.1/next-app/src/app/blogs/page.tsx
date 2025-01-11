@@ -10,7 +10,7 @@ const Blogs = async () => {
     const blogs = await getBlogs();
   return (
     <div>
-       {blogs.map((blog: ITodo)=><Todo title={blog.title} completed={blog.completed} />)}
+      {blogs.map((blog: ITodo)=><Todo title={blog.title} completed={blog.completed} />)}
     </div>
   )
 }
@@ -23,10 +23,11 @@ interface ITodo {
 function Todo({ title, completed }: ITodo) {
     return (
         <div>
-            {title}
+          <p className="text-xl text-green-200">{title}</p>
+            
             {completed ? "done" : "not done"}
         </div>
     )
- }
+}
 
 export default Blogs

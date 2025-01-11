@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 import "./App.css";
+import { SidebarToggle } from "./components/icons/SidebarToggle";
 // import Sidebar from "./components/Sidebar";
 
 const useMediaQuery = (query) => {
@@ -45,10 +46,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       <>
         <div className="fixed top-0 left-0 ">
           <button
-            className="cursor-pointer  bg-slate-100 hover:bg-slate-300 p-2 rounded-md"
+            className="cursor-pointer  bg-indigo-300 hover:bg-slate-300 p-2 rounded-md"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
-            SideToggle
+            <SidebarToggle />
           </button>
         </div>
       </>
@@ -63,7 +64,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
             className="cursor-pointer hover:bg-slate-300 bg-slate-100 p-2 rounded-md"
             onClick={() => setSidebarOpen(!sidebarOpen)}
           >
-            SideToggle
+            <SidebarToggle />
           </div>
         </div>
       </div>
@@ -79,8 +80,11 @@ function MainContent({ sidebarOpen }) {
         <div className="h-72 bg-black hidden md:block"></div>
         {/* main contents parts */}
         <div className="grid grid-cols-11 gap-8 p-8">
+          {/* profile component */}
           <div className="h-96 rounded-2xl  bg-red-200 md:col-span-2  shadow-lg col-span-11  -translate-y-24   hidden md:block"></div>
+          {/* main contents */}
           <div className="h-96 rounded-2xl bg-green-200 md:col-span-6 shadow-lg col-span-11 "></div>
+          {/* extra contents */}
           <div className="h-96 rounded-2xl  bg-blue-200 md:col-span-3 shadow-lg col-span-11"></div>
         </div>
       </div>

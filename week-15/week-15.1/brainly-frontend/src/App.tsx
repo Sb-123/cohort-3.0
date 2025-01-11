@@ -25,13 +25,13 @@ function App() {
         startIcon={<PlusIcon size={"md"} />}
         endIcon={<ShareIcon size={"md"} />}
         size={"md"}
-        title={"Add"}
+        title={"Share brain"}
       />
       <Button
         variant={"secondary"}
-        startIcon={<PlusIcon size={"md"} />}
-        endIcon={<ShareIcon size={"md"} />}
-        size={"md"}
+        startIcon={<PlusIcon size={"lg"} />}
+        endIcon={<ShareIcon size={"lg"} />}
+        size={"lg"}
         title={"Add"}
       />
     </>

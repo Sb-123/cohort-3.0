@@ -12,8 +12,7 @@ interface TodoInput {
 
 function Todo(props: TodoInput): JSX.Element {
     return (
-        <div>
-            
+        <div>    
             <h1>{props.todo.title}</h1>
             <h2>{props.todo.description }</h2>
         </div>

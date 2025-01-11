@@ -10,15 +10,15 @@ const User = new Schema({
 });
 
 const Todo = new Schema({
+  userId: ObjectId,
   title: String,
   done: Boolean,
-  userId: ObjectId,
   //   description: String,
   // token: String,
 });
 
-const UserModel = mongoose.model("user", User);
-const TodoModel = mongoose.model("todos", Todo);
+const UserModel = mongoose.model("users", User); // creating the model
+const TodoModel = mongoose.model("todos", Todo); // creating the model
 
 module.exports = {
   UserModel,

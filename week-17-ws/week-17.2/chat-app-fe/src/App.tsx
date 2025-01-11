@@ -4,7 +4,8 @@ import "./App.css";
 
 function App() {
   const [messages, setMessages] = useState(["hi there"]);
-  const wsRef=useRef();
+  const wsRef = useRef();
+  const inputRef = useRef();
 
   useEffect(() => {
     const ws = new WebSocket("ws://localhost:8080");
@@ -14,6 +15,9 @@ function App() {
     wsRef.current = ws;
     ws.onopen = () => {
       ws.send(JSON.stringify({ type: "join", payload: { roomId: "red" } }));
+    }
+    return () => {
+      wsRef.current.close();
     }
   }, []);
 
@@ -32,10 +36,10 @@ function App() {
           
           </div>
           <div className="flex bottom-0 justify-between items-center">
-            <input id="message" className="white/70 rounded-lg p-2 w-5/6" type="text" placeholder="Message..." />
+            <input ref={inputRef} id="message" className="white/70 rounded-lg p-2 w-5/6" type="text" placeholder="Message..." />
             <button className="rounded-lg pr-2 mr-0 bg-white/70 p-2"
               onClick={() => {
-                const message = document.getElementById("message").value;
+                const message = inputRef.current?.value;
                 wsRef.current.send(JSON.stringify({ type: "chat", payload: { message } }));
               }}
             >Send</button>
